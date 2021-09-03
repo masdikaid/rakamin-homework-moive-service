@@ -4,23 +4,20 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/rysmaadit/go-template/handler"
-	"github.com/rysmaadit/go-template/service"
-
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"github.com/masdikaid-rakamin-homework-movie-service/handler"
 )
 
-func NewRouter(dependencies service.Dependencies) http.Handler {
+func NewRouter() http.Handler {
 	r := mux.NewRouter()
 
-	setAuthRouter(r, dependencies.AuthService)
+	movieRouter(r)
 
 	loggedRouter := handlers.LoggingHandler(os.Stdout, r)
 	return loggedRouter
 }
 
-func setAuthRouter(router *mux.Router, dependencies service.AuthServiceInterface) {
-	router.Methods(http.MethodGet).Path("/auth/token").Handler(handler.GetToken(dependencies))
-	router.Methods(http.MethodPost).Path("/auth/token/validate").Handler(handler.ValidateToken(dependencies))
+func movieRouter(router *mux.Router) {
+	router.Methods(http.MethodPost).Path("/").Handler(handler.CreateMovie())
 }

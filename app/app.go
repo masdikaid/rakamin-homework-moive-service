@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/rysmaadit/go-template/config"
+	"github.com/masdikaid-rakamin-homework-movie-service/config"
 )
 
 type Application struct {

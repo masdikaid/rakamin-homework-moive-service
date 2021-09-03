@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/masdikaid-rakamin-homework-movie-service/common/errors"
 	pkgErrors "github.com/pkg/errors"
-	"github.com/rysmaadit/go-template/common/errors"
 	"github.com/sirupsen/logrus"
 )
 

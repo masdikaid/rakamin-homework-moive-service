@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/rysmaadit/go-template/app"
-	"github.com/rysmaadit/go-template/cli"
 	"os"
+
+	"github.com/masdikaid-rakamin-homework-movie-service/app"
+	"github.com/masdikaid-rakamin-homework-movie-service/cli"
 )
 
 func main() {
