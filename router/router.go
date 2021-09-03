@@ -20,4 +20,6 @@ func NewRouter() http.Handler {
 
 func movieRouter(router *mux.Router) {
 	router.Methods(http.MethodPost).Path("/").Handler(handler.CreateMovie())
+	router.Methods(http.MethodGet).Path("/{slug}").Handler(handler.GetMovie())
+	router.Methods(http.MethodDelete).Path("/{slug}").Handler(handler.DeleteMovie())
 }
