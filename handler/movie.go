@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/masdikaid-rakamin-homework-movie-service/common/responder"
 	"github.com/masdikaid-rakamin-homework-movie-service/service"
 )
 
 func CreateMovie() http.HandlerFunc {
-	var m service.Movie
 	return func(w http.ResponseWriter, r *http.Request) {
+		var m service.Movie
 		err := json.NewDecoder(r.Body).Decode(&m)
 		if err != nil {
 			fmt.Println(m)
@@ -26,6 +27,43 @@ func CreateMovie() http.HandlerFunc {
 		}
 
 		responder.NewHttpResponse(r, w, http.StatusOK, m, nil)
-		return
+	}
+}
+
+func GetMovie() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var m *service.Movie
+		var err error
+
+		params := mux.Vars((r))
+		m, err = service.GetMovie(params["slug"])
+		if err != nil {
+			fmt.Println(m)
+			responder.NewHttpResponse(r, w, http.StatusBadRequest, nil, err)
+			return
+		}
+
+		responder.NewHttpResponse(r, w, http.StatusOK, m, nil)
+	}
+}
+
+func DeleteMovie() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var m *service.Movie
+		var err error
+
+		params := mux.Vars((r))
+		m, err = service.GetMovie(params["slug"])
+		if err != nil {
+			fmt.Println(m)
+			responder.NewHttpResponse(r, w, http.StatusBadRequest, nil, err)
+			return
+		}
+		err = m.Delete()
+		if m.Delete() != nil {
+			responder.NewHttpResponse(r, w, http.StatusBadRequest, nil, err)
+		}
+
+		responder.NewHttpResponse(r, w, http.StatusOK, "Delete Sukses", nil)
 	}
 }
