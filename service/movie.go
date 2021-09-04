@@ -3,6 +3,7 @@ package service
 import (
 	"strings"
 
+	"github.com/masdikaid-rakamin-homework-movie-service/contract"
 	"github.com/masdikaid-rakamin-homework-movie-service/databases"
 	"gorm.io/gorm"
 )
@@ -49,6 +50,13 @@ func (m *Movie) Delete() error {
 		return err.Error
 	}
 	return nil
+}
+
+func (m *Movie) Contract() contract.MovieContract {
+	mov := contract.MovieContract{Id: m.ID, Title: m.Title, Description: m.Description, Slug: m.Slug, Duration: m.Duration, Image: m.Image}
+
+	return mov
+
 }
 
 func GetMovie(slug string) (*Movie, error) {
