@@ -26,7 +26,7 @@ func CreateMovie() http.HandlerFunc {
 			return
 		}
 
-		responder.NewHttpResponse(r, w, http.StatusOK, m, nil)
+		responder.NewHttpResponse(r, w, http.StatusCreated, m.Contract(), nil)
 	}
 }
 
@@ -39,11 +39,11 @@ func GetMovie() http.HandlerFunc {
 		m, err = service.GetMovie(params["slug"])
 		if err != nil {
 			fmt.Println(m)
-			responder.NewHttpResponse(r, w, http.StatusBadRequest, nil, err)
+			responder.NewHttpResponse(r, w, http.StatusNotFound, nil, err)
 			return
 		}
 
-		responder.NewHttpResponse(r, w, http.StatusOK, m, nil)
+		responder.NewHttpResponse(r, w, http.StatusOK, m.Contract(), nil)
 	}
 }
 
@@ -77,7 +77,7 @@ func UpdateMovie() http.HandlerFunc {
 			return
 		}
 
-		responder.NewHttpResponse(r, w, http.StatusOK, newData, nil)
+		responder.NewHttpResponse(r, w, http.StatusOK, newData.Contract(), nil)
 	}
 }
 
@@ -98,6 +98,6 @@ func DeleteMovie() http.HandlerFunc {
 			responder.NewHttpResponse(r, w, http.StatusBadRequest, nil, err)
 		}
 
-		responder.NewHttpResponse(r, w, http.StatusOK, "Delete Sukses", nil)
+		responder.NewHttpResponse(r, w, http.StatusOK, "success", nil)
 	}
 }
