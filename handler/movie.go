@@ -47,6 +47,40 @@ func GetMovie() http.HandlerFunc {
 	}
 }
 
+func UpdateMovie() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var m *service.Movie
+		var err error
+
+		req := service.Movie{}
+
+		err = json.NewDecoder(r.Body).Decode(&req)
+		if err != nil {
+			fmt.Println(m)
+			responder.NewHttpResponse(r, w, http.StatusBadRequest, nil, err)
+			return
+		}
+
+		params := mux.Vars((r))
+		m, err = service.GetMovie(params["slug"])
+		if err != nil {
+			fmt.Println(m)
+			responder.NewHttpResponse(r, w, http.StatusBadRequest, nil, err)
+			return
+		}
+
+		var newData *service.Movie
+		newData, err = m.UpdateFromData(req)
+		if err != nil {
+			fmt.Println(m)
+			responder.NewHttpResponse(r, w, http.StatusBadRequest, nil, err)
+			return
+		}
+
+		responder.NewHttpResponse(r, w, http.StatusOK, newData, nil)
+	}
+}
+
 func DeleteMovie() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var m *service.Movie
