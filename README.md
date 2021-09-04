@@ -56,3 +56,8 @@ make build
 | LOG_LEVEL | Mode for log level configuration | string | debug/info |
 | ENVIRONMENT | Application environment | string | development |
 | JWT_SECRET | JWT Secret | string | alphabet |
+| DB_HOST | Database Host | string | IP/Host |
+| DB_PORT | Database Port | int | Port |
+| DB_USERNAME | Database Username | string | alphabet |
+| DB_PASSWORD | Database Password | string | alphabet |
+| DB_NAME | Database Name | string | alphabet |
