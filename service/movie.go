@@ -1,6 +1,8 @@
 package service
 
 import (
+	"strings"
+
 	"github.com/masdikaid-rakamin-homework-movie-service/databases"
 	"gorm.io/gorm"
 )
@@ -15,6 +17,7 @@ type Movie struct {
 }
 
 func (m *Movie) Create() error {
+	m.Slug = strings.ReplaceAll(m.Slug, " ", "-")
 	res := databases.MysqlDB.Create(m)
 	if res.Error != nil {
 		return res.Error
@@ -22,12 +25,22 @@ func (m *Movie) Create() error {
 	return nil
 }
 
-func (m *Movie) Update() (*Movie, error) {
+func (m *Movie) update() (*Movie, error) {
+	m.Slug = strings.ReplaceAll(m.Slug, " ", "-")
 	err := databases.MysqlDB.Save(m)
 	if err.Error != nil {
 		return nil, err.Error
 	}
 	return m, nil
+}
+
+func (m *Movie) UpdateFromData(newMovie Movie) (*Movie, error) {
+	m.Title = newMovie.Title
+	m.Slug = newMovie.Slug
+	m.Description = newMovie.Description
+	m.Duration = newMovie.Duration
+	m.Image = newMovie.Image
+	return m.update()
 }
 
 func (m *Movie) Delete() error {
